@@ -1,0 +1,16 @@
+{
+    "name": "dgilbert/contact-generator",
+    "description": "Generate a CSV containing an arbitrary number of contact records.",
+    "type": "project",
+    "require": {
+        "fzaninotto/faker": "^1.7",
+        "league/csv": "^9.1"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Don Gilbert",
+            "email": "don.gilbert@mautic.com"
+        }
+    ]
+}

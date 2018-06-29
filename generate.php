@@ -5,15 +5,30 @@ require './vendor/autoload.php';
 use League\Csv\Writer;
 use Faker\Factory;
 
+$args = $argv;
+unset($args[0]);
+$toGenerate = array_shift($args);
+$columns = array_values($args);
+
+if (empty($columns)) {
+    $columns = ['firstName', 'lastName', 'email', 'city', 'state', 'country', 'postcode', 'streetAddress'];
+}
+
 $faker = Factory::create();
 $writer = Writer::createFromPath(__DIR__.'/output.csv', 'w+');
-$writer->insertOne(['firstname', 'lastname', 'email', 'city', 'state', 'country', 'zipcode', 'address1']);
+$writer->insertOne($columns);
 
-$counter = $argv[1] ?? 10000;
+$counter = $toGenerate ?? 10000;
 
 try {
     while($counter) {
-        $writer->insertOne([$faker->firstName, $faker->lastName, $faker->email, $faker->city, $faker->stateAbbr, $faker->country, $faker->postcode, $faker->streetAddress]);
+        $row = [];
+
+        foreach ($columns as $col) {
+            $row[] = $faker->$col;
+        }
+
+        $writer->insertOne($row);
 
         --$counter;
     }
